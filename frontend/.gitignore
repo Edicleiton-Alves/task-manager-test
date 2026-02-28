@@ -1,0 +1,64 @@
+#################################
+# NODE / FRONTEND
+#################################
+
+node_modules/
+dist/
+dist-ssr/
+coverage/
+*.log
+*.local
+*.tsbuildinfo
+.eslintcache
+
+# Vite
+*.timestamp-*-*.mjs
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Vitest
+__screenshots__/
+
+#################################
+# LARAVEL / BACKEND
+#################################
+
+vendor/
+.env
+.env.*
+.phpunit.result.cache
+Homestead.yaml
+Homestead.json
+/storage/*.key
+
+# Ignore all of storage except required folders
+storage/*
+!storage/app/
+!storage/app/public/
+!storage/framework/
+!storage/framework/cache/
+!storage/framework/sessions/
+!storage/framework/testing/
+!storage/framework/views/
+!storage/logs/
+
+# Cache & compiled
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+#################################
+# OS / EDITOR
+#################################
+
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
