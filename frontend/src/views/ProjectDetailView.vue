@@ -309,7 +309,6 @@ watch(
         <h2 class="text-lg font-semibold">Tarefas</h2>
 
         <div class="flex items-center gap-3">
-          <span class="text-sm text-zinc-400">{{ tasks.length }} tarefa(s)</span>
 
           <button
             type="button"
