@@ -30,9 +30,8 @@ type ListResponse<T> =
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
-// --------------------
-// Project
-// --------------------
+// project
+
 const project = ref<Project | null>(null)
 const projectLoading = ref(false)
 
@@ -60,9 +59,8 @@ const statusPillClass = computed(() => {
   return 'border-zinc-700 text-zinc-300 bg-zinc-800/40'
 })
 
-// --------------------
-// Tasks list + filters (NO pagination)
-// --------------------
+// Tasks list + Filters
+
 const tasks = ref<Task[]>([])
 const tasksLoading = ref(false)
 
@@ -96,16 +94,14 @@ async function fetchTasks() {
   }
 }
 
-// debounce filtros
 let debounceTimer: number | undefined
 watch([filterStatus, filterPriority, filterOverdue], () => {
   window.clearTimeout(debounceTimer)
   debounceTimer = window.setTimeout(() => fetchTasks(), 300)
 })
 
-// --------------------
-// Modal: create/edit task
-// --------------------
+// Modal: create/edit Task
+
 const isTaskModalOpen = ref(false)
 const modalMode = ref<'create' | 'edit'>('create')
 const editingTaskId = ref<number | null>(null)
@@ -190,7 +186,6 @@ async function submitTaskModal() {
       return
     }
 
-    // edit
     if (!editingTaskId.value) throw new Error('Tarefa inválida para edição.')
     const taskId = editingTaskId.value
 
@@ -217,9 +212,8 @@ async function submitTaskModal() {
   }
 }
 
-// --------------------
 // Actions: delete only
-// --------------------
+
 async function deleteTask(taskId: number) {
   const snapshot = tasks.value.slice()
   tasks.value = tasks.value.filter((x) => x.id !== taskId)
@@ -247,7 +241,6 @@ function priorityPillClass(p: Task['priority']) {
   return 'border-zinc-800 text-zinc-400 bg-zinc-900/30'
 }
 
-// --------------------
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   fetchProject()
@@ -300,7 +293,6 @@ watch(
 
     </div>
 
-    <!-- Alerts -->
     <div v-if="error" class="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
       {{ error }}
     </div>
@@ -308,12 +300,10 @@ watch(
       {{ success }}
     </div>
 
-    <!-- Skeleton project -->
     <div v-if="projectLoading" class="grid gap-3 sm:grid-cols-2">
       <div v-for="i in 2" :key="i" class="h-28 rounded-xl border border-zinc-800 bg-zinc-900/20 animate-pulse" />
     </div>
 
-    <!-- Tasks list -->
     <section class="space-y-4">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Tarefas</h2>
@@ -332,7 +322,6 @@ watch(
         </div>
       </div>
 
-      <!-- Filters -->
       <div class="grid gap-3 sm:grid-cols-3">
         <label class="grid gap-1 text-sm">
           <span class="text-zinc-300">Status</span>
@@ -366,7 +355,6 @@ watch(
         </label>
       </div>
 
-      <!-- Loading skeleton -->
       <div v-if="tasksLoading" class="grid gap-3 sm:grid-cols-2">
         <div v-for="i in 4" :key="i" class="h-28 rounded-xl border border-zinc-800 bg-zinc-900/20 animate-pulse" />
       </div>
@@ -414,7 +402,6 @@ watch(
               </div>
             </div>
 
-            <!-- ONLY Edit + Remove -->
             <div class="flex flex-col items-end gap-2">
               <div class="flex gap-2 flex-wrap justify-end">
                 <button
@@ -439,7 +426,6 @@ watch(
       </div>
     </section>
 
-    <!-- MODAL -->
     <div
       v-if="isTaskModalOpen"
       class="fixed inset-0 z-50 flex items-center justify-center"

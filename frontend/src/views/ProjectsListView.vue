@@ -5,9 +5,6 @@ import { useProjects } from '@/composables/useProjects'
 
 const { projects, loading, error, success, fetchProjects, createProject } = useProjects()
 
-// --------------------
-// Modal state
-// --------------------
 const isCreateModalOpen = ref(false)
 const modalLoading = ref(false)
 const modalError = ref<string | null>(null)
@@ -30,7 +27,6 @@ function closeCreateProjectModal() {
   isCreateModalOpen.value = false
 }
 
-// ESC para fechar
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && isCreateModalOpen.value) closeCreateProjectModal()
 }
@@ -50,7 +46,6 @@ async function onCreate() {
 
     closeCreateProjectModal()
   } catch (e: any) {
-    // caso seu composable dispare throw em algum ponto
     modalError.value = e?.message ?? 'Não foi possível criar o projeto.'
   } finally {
     modalLoading.value = false
@@ -76,7 +71,6 @@ onUnmounted(() => {
       </p>
     </div>
 
-    <!-- Alerts -->
     <div v-if="error" class="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
       {{ error }}
     </div>
@@ -84,7 +78,6 @@ onUnmounted(() => {
       {{ success }}
     </div>
 
-    <!-- Actions -->
     <section class="rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
       <div class="flex items-center justify-between gap-4 flex-wrap">
         <div>
@@ -114,7 +107,6 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <!-- Projects list -->
     <section class="space-y-4">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Lista</h2>
@@ -175,7 +167,6 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <!-- MODAL: Create Project -->
     <div
       v-if="isCreateModalOpen"
       class="fixed inset-0 z-50 flex items-center justify-center"
@@ -183,10 +174,8 @@ onUnmounted(() => {
       role="dialog"
       @click.self="closeCreateProjectModal"
     >
-      <!-- backdrop -->
       <div class="absolute inset-0 bg-black/60" />
 
-      <!-- content -->
       <div class="relative w-full max-w-lg rounded-xl border border-zinc-800 bg-zinc-950 p-5 shadow-xl">
         <div class="flex items-start justify-between gap-4">
           <div>

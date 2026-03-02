@@ -35,12 +35,10 @@ export function useTasks(projectId: number) {
     const error = ref<string | null>(null)
     const success = ref<string | null>(null)
 
-    // filtros
-    const status = ref<string>('')     // '' | todo | in_progress | done
-    const priority = ref<string>('')   // '' | low | medium | high
+    const status = ref<string>('')     
+    const priority = ref<string>('')  
     const overdue = ref(false)
 
-    // debounce
     const debouncedStatus = ref(status.value)
     const debouncedPriority = ref(priority.value)
     const debouncedOverdue = ref(overdue.value)
@@ -80,7 +78,6 @@ export function useTasks(projectId: number) {
         }
     }
 
-    // refetch quando filtros “debounced” mudarem
     watch(queryString, () => {
         fetchTasks()
     })
@@ -106,7 +103,6 @@ export function useTasks(projectId: number) {
         }
     }
 
-    // Optimistic update: muda na UI primeiro, depois confirma na API; se falhar, desfaz.
     async function updateTaskOptimistic(
         taskId: number,
         patch: Partial<Pick<Task, 'status' | 'priority'>>
@@ -118,11 +114,10 @@ export function useTasks(projectId: number) {
         if (idx === -1) return
 
         const current = tasks.value[idx]
-        if (!current) return // <- isso faz o TS parar de reclamar
+        if (!current) return
 
         const before: Task = { ...current }
 
-        // update otimista
         tasks.value[idx] = { ...current, ...patch }
 
         try {
@@ -144,16 +139,15 @@ export function useTasks(projectId: number) {
         error.value = null
         success.value = null
 
-        const before: Task[] = [...tasks.value] // snapshot do array
+        const before: Task[] = [...tasks.value]
 
-        // otimista
         tasks.value = tasks.value.filter((t) => t.id !== taskId)
 
         try {
             await api<void>(`/tasks/${taskId}`, { method: 'DELETE' })
             success.value = 'Tarefa removida'
         } catch (e: any) {
-            tasks.value = before // rollback seguro
+            tasks.value = before
             error.value = e?.message ?? 'Erro ao remover tarefa'
             throw e
         }

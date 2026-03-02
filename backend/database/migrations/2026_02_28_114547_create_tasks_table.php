@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
@@ -21,13 +19,13 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
 
-            $table->string('status')->default('todo'); // todo | in_progress | done
-            $table->string('priority')->default('medium'); // low | medium | high
+            $table->string('status')->default('todo');
+            $table->string('priority')->default('medium');
 
             $table->date('due_date')->nullable();
 
             $table->timestamps();
-            $table->softDeletes(); // obrigatório
+            $table->softDeletes();
 
             $table->index(['project_id', 'status']);
             $table->index(['project_id', 'priority']);
@@ -35,9 +33,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tasks');

@@ -30,7 +30,6 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    // Ex.: Task::overdue()->get()
     public function scopeOverdue(Builder $query): Builder
     {
         return $query
