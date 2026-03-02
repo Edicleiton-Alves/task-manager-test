@@ -8,18 +8,21 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
     /**
      * GET /api/projects/{project}/tasks?status=todo&priority=high&overdue=1
+     *
+     * Retorna TODAS as tarefas do projeto (sem paginação), já com filtros.
+     * Isso resolve o problema do frontend não imprimir todas as tasks quando o endpoint pagina.
      */
     public function index(Request $request, Project $project): AnonymousResourceCollection
     {
-        $query = $project->tasks()->newQuery();
+        $query = $project->tasks(); // já vem filtrado por project_id via relação
 
         if ($status = $request->query('status')) {
             $query->where('status', $status);
@@ -35,8 +38,7 @@ class TaskController extends Controller
 
         $tasks = $query
             ->orderByDesc('id')
-            ->cursorPaginate(10)
-            ->withQueryString();
+            ->get();
 
         return TaskResource::collection($tasks);
     }
@@ -72,7 +74,7 @@ class TaskController extends Controller
     }
 
     /**
-     * DELETE /api/tasks/{task}  (soft delete)
+     * DELETE /api/tasks/{task} (soft delete)
      */
     public function destroy(Task $task): JsonResponse
     {
