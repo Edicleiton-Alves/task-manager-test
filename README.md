@@ -60,6 +60,7 @@ php artisan migrate --seed
 Esse comando irá:
 - Criar as tabelas
 - Popular o banco com dados de teste
+
 Subir o servidor backend
 ```bash
 php artisan serve
@@ -74,4 +75,8 @@ cd frontend
 Instalar dependências
 ```bash
 npm install
+```
+Rodar ambiente de desenvolvimento
+```bash
+npm run dev
 ```
